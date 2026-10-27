@@ -22,7 +22,7 @@ jobs:
 
 
 
- image:
+   image:
     needs: tests
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
