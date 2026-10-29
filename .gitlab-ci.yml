@@ -1,0 +1,11 @@
+stages:
+  - test
+
+tests:
+  stage: test
+  image: node:24-alpine
+  tags:
+    - vm
+  script:
+    - npm ci
+    - npm test
