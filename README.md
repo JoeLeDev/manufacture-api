@@ -7,3 +7,5 @@ Une mini API qui calcule des prix TTC.
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=JoeLeDev_manufacture-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JoeLeDev_manufacture-api)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JoeLeDev_manufacture-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=JoeLeDev_manufacture-api)
+
+[![GitLab CI](https://gitlab.com/JoeLeDev/manufacture-api/badges/main/pipeline.svg?ignore_skipped=true)](https://gitlab.com/JoeLeDev/manufacture-api/-/pipelines)
