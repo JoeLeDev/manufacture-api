@@ -78,3 +78,42 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
+  deploy:
+    needs: [image, sonar]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, Linux, ARM64]
+    environment: production
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Connexion à GHCR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GH_TOKEN" | docker login ghcr.io \
+            -u "${{ github.actor }}" --password-stdin
+
+      - name: Déployer la nouvelle version
+        env:
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          IMAGE="ghcr.io/${REPOSITORY,,}:${COMMIT_SHA}"
+
+          docker pull "$IMAGE"
+          docker rm -f manufacture || true
+
+          docker run -d \
+            --name manufacture \
+            --restart unless-stopped \
+            -p 127.0.0.1:8081:3000 \
+            -e APP_VERSION="${COMMIT_SHA:0:7}" \
+            "$IMAGE"
+
+      - name: Vérifier que l'application répond
+        run: |
+          sleep 5
+          curl -fsS http://localhost:8081/health
