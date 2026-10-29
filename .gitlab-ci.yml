@@ -9,7 +9,7 @@ tests:
   script:
     - npm ci
     - npm test
-image:
+build_image:
   stage: build
   image: docker:29-cli
   tags:
