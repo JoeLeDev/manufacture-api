@@ -1,4 +1,4 @@
-name: CI
+éname: CI
 
 on:
   push:
@@ -58,8 +58,8 @@ jobs:
             ${{ env.IMAGE }}:${{ github.sha }}
 
    sonar:
-      runs-on: ubuntu-latest
-      if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+     runs-on: ubuntu-latest
+     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - uses: actions/checkout@v6
