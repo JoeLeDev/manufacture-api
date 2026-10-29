@@ -57,9 +57,9 @@ jobs:
             ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ github.sha }}
 
-   sonar:
-      runs-on: ubuntu-latest
-      if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+  sonar:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - uses: actions/checkout@v6
@@ -70,11 +70,11 @@ jobs:
         with:
           node-version: 24
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npm test
 
-      - uses: SonarSource/sonarqube-scan-action@v8
+      - uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
