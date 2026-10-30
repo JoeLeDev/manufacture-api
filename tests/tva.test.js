@@ -15,3 +15,11 @@ test('un prix negatif est refuse', () => {
 test('Si taux = 10% , 50 euros HT font 55 euros TTC ', () => {
   expect(calculerTTC(50, 10)).toBe(55);
 });
+
+test('un prix non numérique est refusé', () => {
+  expect(() => calculerTTC('100')).toThrow('Prix invalide');
+});
+
+test('un prix NaN est refusé', () => {
+  expect(() => calculerTTC(NaN)).toThrow('Prix invalide');
+});
