@@ -12,9 +12,17 @@ spec:
       labels:
         app: manufacture-api
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: api
           image: ghcr.io/joeledev/manufacture-api:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           ports:
             - containerPort: 3000
           readinessProbe:
