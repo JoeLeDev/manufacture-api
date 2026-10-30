@@ -5,6 +5,7 @@ test('GET /health repond ok', async () => {
   const res = await request(app).get('/health');
   expect(res.status).toBe(200);
   expect(res.body.status).toBe('ok');
+  expect(res.body).toHaveProperty('version');
 });
 
 test('GET /prix calcule le prix TTC', async () => {
@@ -17,7 +18,7 @@ test('GET /prix refuse un prix invalide', async () => {
   expect(res.status).toBe(400);
 });
 
-test('GET /prix calcule le prix TTC avec un taux reduit', async () => {
+test('GET /prix refuse un prix negatif', async () => {
   const res = await request(app).get('/prix?ht=-1');
   expect(res.status).toBe(400);
 });
@@ -53,9 +54,19 @@ describe('GET /remise', () => {
     });
   });
 
-  test('refuse les paramètres manquants', async () => {
+  test('refuse les paramètres manquants (pourcentage)', async () => {
     const res = await request(app)
       .get('/remise?prix=200');
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      erreur: 'Paramètres manquants'
+    });
+  });
+
+  test('refuse les paramètres manquants (prix)', async () => {
+    const res = await request(app)
+      .get('/remise?pourcentage=10');
 
     expect(res.status).toBe(400);
     expect(res.body).toEqual({
