@@ -1,10 +1,14 @@
-
 pipeline {
     agent any
+
+    tools {
+        nodejs 'NodeJS-24'
+    }
 
     stages {
         stage('Installation') {
             steps {
+                sh 'node -v && npm -v'
                 sh 'npm ci'
             }
         }
